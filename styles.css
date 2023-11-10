@@ -58,9 +58,12 @@ h2 {
   padding: 0 2rem;
 }
 
-.create-btn{
+.create{
   margin: 2rem;
 }
+
+
+
 
 .list{
   display:flex;
@@ -76,8 +79,58 @@ h2 {
   
 }
 
+
 .list-body{
  
 
 
+}
+
+/* Create post section */ 
+
+.form-wrapper{
+  position:relative;
+  display: inline-block;
+
+}
+
+#form-btn{
+  left:3rem;
+  top:2rem;
+  margin:1rem;
+  padding:1rem;
+  position: relative;
+  border-radius:5px;
+  cursor: pointer;
+}
+
+
+
+#post-form{
+  display:flex;
+  flex-direction: column;
+  margin:2rem;
+  width:25rem;
+  gap:1.5rem;
+}
+
+#title{
+  height:4rem;
+  padding:2rem;
+}
+
+#post{
+  height:6rem;
+  padding:2rem;
+}
+
+#tags{
+  height:2rem;
+  padding:2rem;
+  
+}
+
+
+.titel{
+  font-size: 3rem;
 }

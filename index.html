@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FORUM</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <nav id="navbar-container">
-        <h1 class="logo">FORUM</h1> 
-        
-        <div class ="searchbar"> Search for threads</div>
-    
-        <div class="nav-account">
-            <span class="log-btn">Log in</span>
-            <span class="create-btn">Create account</span>
-            <span class="profile-btn">View profile</span>
-        </div>
-        
+      <h1 class="logo">FORUM</h1>
 
+      <div class="searchbar">Search for threads</div>
+
+      <div class="nav-account">
+        <span class="log">Log in</span>
+        <span class="create">Create account</span>
+        <span class="profile">View profile</span>
+      </div>
     </nav>
 
-
-   
+    <header>
+      <div class="form-wrapper">
+        <button id="form-btn">Create your own post</button>
+        <form id="post-form">
+          <div>
+            <input type="text" id="title" placeholder="Title:" />
+          </div>
+          <div>
+            <input
+              type="text"
+              id="post"
+              placeholder="What do you want to post?:"
+            />
+          </div>
+          <div>
+            <input type="text" id="tags" placeholder="Your tags:" />
+          </div>
+          <div>
+            <input type="submit" id="post-btn" value="Submit" />
+          </div>
+        </form>
+      </div>
+    </header>
 
     <script src="main.js"></script>
-    
-</body>
+  </body>
 </html>
