@@ -16,7 +16,7 @@ note: Det här är endast något som gjorts för att pröva mig fram, projektet 
 
 1. Posts added to the page will now be on top of the posts fetched from the API, and have the same design. 
 2. Posts are saved to the page in local storage, however; they are only showing up when I add a new post, something that hopefully will be fixed in the next commit.
-3. You can now like each post (one time), likes on your own posts are saved 
+3. You can now like each post (one time) 
 4. After the next commit, following thing will hopefully have been implemented:
 
 * all fetched posts will now be in local storage
@@ -25,3 +25,11 @@ note: Det här är endast något som gjorts för att pröva mig fram, projektet 
 
 ps. the feature to save comments and to ad API comments to posts is no longer prioritized, if added it will be further 
 along the project.
+
+'Save API to storage and render' commit clarification
+
+1. All posts are now saved in local storage after fetch. 
+2. Posts are now rendered from local storage
+3. Likes are now saved, however, the click event is refreshed each time the page is refreshed. Something that I'll try to fix. 
+4. Added posts will be placed last in the list, something that hopefully will be fixed in the next commit. 
+5. You can't remove your own posts yet
