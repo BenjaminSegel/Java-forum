@@ -1,6 +1,9 @@
 let formBtn = document.getElementById("form-btn");
 let postForm = document.getElementById("post-form");
 let newPosts = document.createElement("ul");
+let disliked = false; 
+let liked = false; 
+let hasLiked = false;
 newPosts.innerText = "";
 document.body.append(newPosts);
 postForm.style.display = "none";
@@ -15,7 +18,6 @@ formBtn.addEventListener("click", function () {
 
 postForm.addEventListener("submit", addPost);
 
-
 function addPost(e) {
   e.preventDefault();
 
@@ -23,7 +25,8 @@ function addPost(e) {
   let body = document.getElementById("post-body").value;
   let tags = document.getElementById("tags").value;
   let reactions = 0;
-  saveToLocalStorage(title, body, tags, reactions);
+  saveToLocalStorage(title, body, tags, reactions,);
+  location.reload();
 
   fetch("https://dummyjson.com/posts/add", {
     method: "POST",
@@ -42,29 +45,26 @@ function addPost(e) {
     .then(function (res) {
       return res.json();
     })
-    .then((title, body, tags, likes) => {
-    
-   
+    .then((title, body, tags, likes) => {});
+  function saveToLocalStorage(title, body, tags, reactions) {
+    let data = localStorage.getItem("posts");
+    let ownPosts = data ? JSON.parse(data) : [];
+    ownPosts.unshift({
+      title,
+      body,
+      tags,
+      reactions,
     });
-    function saveToLocalStorage(title, body, tags, reactions) {
-      let data = localStorage.getItem("posts");
-      let ownPosts = data ? JSON.parse(data) : [];
-      ownPosts.push({
-        title,
-        body,
-        tags,
-        reactions
-      });
-      localStorage.setItem("posts", JSON.stringify(ownPosts));
-    }
-}
 
+    localStorage.setItem("posts", JSON.stringify(ownPosts));
+
+  }
+};
 
 function saveApi(savedPosts) {
-  console.log(apiPosts);
 
   localStorage.setItem("posts", JSON.stringify(savedPosts));
-}
+};
 
 console.log(localStorage);
 let list = document.createElement("ul");
@@ -83,10 +83,12 @@ if (apiData === null) {
     });
 } else {
   renderPosts(apiPosts);
+  console.log(apiPosts);
 }
 function renderPosts(posts) {
   document.body.append(list);
   list.classList.add("list");
+  console.log(list);
   for (let i = 0; i < posts.length; i++) {
     let post = posts[i];
     let listTitle = document.createElement("li");
@@ -94,11 +96,14 @@ function renderPosts(posts) {
     let listTags = document.createElement("li");
     let listReactions = document.createElement("div");
     let likeBtn = document.createElement("button");
+    likeBtn.id = 'likeBtn';
+    let dlikeBtn = document.createElement("button");
+    dlikeBtn.id = 'dlikeBtn'
     let commentInput = document.createElement("input");
     let commentBtn = document.createElement("button");
     let commentSection = document.createElement("ul");
     let likeSection = document.createElement("div");
-
+  
     commentBtn.addEventListener("click", function () {
       let li = document.createElement("li");
       li.append(commentInput.value);
@@ -106,7 +111,7 @@ function renderPosts(posts) {
       commentSection.append(li);
     });
 
-    likeSection.append(listReactions, likeBtn);
+    likeSection.append(listReactions, likeBtn, dlikeBtn);
 
     list.append(
       listTitle,
@@ -119,12 +124,11 @@ function renderPosts(posts) {
     );
 
     listTitle.classList.add("list-title");
-    listBody.classList.add("list-body");
-    listTags.classList.add("list-tags");
     likeSection.classList.add("like-section");
 
     likeBtn.innerText = "Like Post";
-
+    dlikeBtn.innerText = "Dislike Post";
+ 
     listTitle.innerText = post.title + " - ";
     listBody.innerText = post.body;
     listReactions.innerText = "Likes: " + post.reactions;
@@ -136,11 +140,59 @@ function renderPosts(posts) {
     likeBtn.addEventListener(
       "click",
       () => {
-        post.reactions++;
+     
+        if(liked){
+          post.reactions --;
+          liked = false;
+          likeBtn.style.backgroundColor = 'gainsboro';
+        }
+        else if(disliked){
+          post.reactions += 2;
+          hasLiked = true;
+          disliked = false;
+          dlikeBtn.style.backgroundColor = 'gainsboro';
+          likeBtn.style.backgroundColor = 'lightblue';
+        }
+        else if(hasLiked) {
+          post.reactions --;
+          hasLiked = false;
+          likeBtn.style.backgroundColor = 'gainsboro';
+        }
+        else {
+          post.reactions ++;
+          liked = true;
+          likeBtn.style.backgroundColor = 'lightblue';
+        }
+
         listReactions.innerText = "Likes: " + post.reactions;
-        saveApi(posts)
-      },
-      { once: true }
+        saveApi(posts);
+      
+      } 
+    );
+    dlikeBtn.addEventListener(
+      "click",
+      () => {
+        if(disliked){
+          post.reactions ++;
+          disliked = false;
+          dlikeBtn.style.backgroundColor = 'gainsboro';
+        }else if(hasLiked || liked){
+          post.reactions -= 2;
+          disliked = true;
+          liked = false;
+          hasLiked = false;
+          likeBtn.style.backgroundColor = 'gainsboro';
+          dlikeBtn.style.backgroundColor = 'red';
+        }
+        else{
+          post.reactions--;
+          disliked = true;
+          likeBtn.style.backgroundColor = 'gainsboro';
+          dlikeBtn.style.backgroundColor = 'red';
+        }
+        listReactions.innerText = "Likes: " + post.reactions;
+        saveApi(posts);
+      }
     );
   }
 }
